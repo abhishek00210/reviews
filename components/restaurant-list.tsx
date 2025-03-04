@@ -15,6 +15,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material"
 import type { Restaurant } from "@/types/restaurant"
 import React from "react"
@@ -27,6 +29,8 @@ interface RestaurantListProps {
 
 export default function RestaurantList({ restaurants, onSelectRestaurant, selectedRestaurant }: RestaurantListProps) {
   const [sortBy, setSortBy] = useState("best_match")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const handleSortChange = (event: any) => {
     setSortBy(event.target.value)
@@ -48,7 +52,7 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-        <FormControl size="small" sx={{ minWidth: 150 }}>
+        <FormControl size="small" sx={{ minWidth: isMobile ? 120 : 150 }}>
           <InputLabel id="sort-label">Sort by</InputLabel>
           <Select labelId="sort-label" value={sortBy} label="Sort by" onChange={handleSortChange}>
             <MenuItem value="best_match">Best match</MenuItem>
@@ -59,7 +63,7 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
         </FormControl>
       </Box>
 
-      <List sx={{ bgcolor: "background.paper", borderRadius: 1 }}>
+      <List sx={{ bgcolor: "background.paper", borderRadius: 1, p: 0 }}>
         {sortedRestaurants.map((restaurant) => (
           <Box key={restaurant.id}>
             <ListItem
@@ -69,6 +73,7 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
               selected={selectedRestaurant?.id === restaurant.id}
               sx={{
                 cursor: "pointer",
+                p: isMobile ? 1.5 : 2,
                 "&.Mui-selected": {
                   bgcolor: "rgba(0, 0, 0, 0.04)",
                   "&:hover": {
@@ -77,24 +82,44 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
                 },
               }}
             >
-              <ListItemAvatar>
+              <ListItemAvatar sx={{ minWidth: isMobile ? 60 : 80, mr: isMobile ? 1 : 2 }}>
                 <Avatar
                   variant="rounded"
                   src={restaurant.images[0]}
                   alt={restaurant.name}
-                  sx={{ width: 80, height: 80, mr: 1 }}
+                  sx={{
+                    width: isMobile ? 60 : 80,
+                    height: isMobile ? 60 : 80,
+                  }}
                 />
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  <Typography variant="h6" component="div">
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      fontSize: isMobile ? "1rem" : "1.25rem",
+                      mb: 0.5,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {restaurant.name}
                   </Typography>
                 }
                 secondary={
                   <React.Fragment>
-                    <Box sx={{ mt: 1 }}>
-                      <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+                    <Box sx={{ mt: 0.5 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          mb: 0.5,
+                          flexWrap: isMobile ? "wrap" : "nowrap",
+                        }}
+                      >
                         <Typography variant="body2" component="span" sx={{ mr: 1 }}>
                           {restaurant.rating}
                         </Typography>
@@ -109,11 +134,22 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
                           • {restaurant.cuisine}
                         </Typography>
                       </Box>
-                      <Typography variant="body2" component="span" color="text.secondary" sx={{ display: "block" }}>
+                      <Typography
+                        variant="body2"
+                        component="span"
+                        color="text.secondary"
+                        sx={{
+                          display: "block",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          maxWidth: "100%",
+                        }}
+                      >
                         {restaurant.distance} m • {restaurant.address}
                       </Typography>
                       <Box sx={{ mt: 0.5 }}>
-                        {restaurant.features.map((feature, index) => (
+                        {restaurant.features.slice(0, isMobile ? 2 : 4).map((feature, index) => (
                           <Chip
                             key={index}
                             label={feature}
@@ -121,6 +157,13 @@ export default function RestaurantList({ restaurants, onSelectRestaurant, select
                             sx={{ mr: 0.5, mb: 0.5, fontSize: "0.7rem" }}
                           />
                         ))}
+                        {restaurant.features.length > (isMobile ? 2 : 4) && (
+                          <Chip
+                            label={`+${restaurant.features.length - (isMobile ? 2 : 4)} more`}
+                            size="small"
+                            sx={{ mr: 0.5, mb: 0.5, fontSize: "0.7rem" }}
+                          />
+                        )}
                       </Box>
                     </Box>
                   </React.Fragment>
