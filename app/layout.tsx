@@ -3,16 +3,12 @@
 import type React from "react"
 
 import { Inter } from "next/font/google"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
+import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import "./globals.css"
+import theme from "@/theme"
 
 const inter = Inter({ subsets: ["latin"] })
-
-// Create a theme instance
-const theme = createTheme({
-  // Your theme configuration here
-})
 
 export default function RootLayout({
   children,
