@@ -23,6 +23,8 @@ import {
   CardContent,
   Tab,
   Tabs,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import ShareIcon from "@mui/icons-material/Share"
@@ -52,7 +54,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`restaurant-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: { xs: 1.5, sm: 3 } }}>{children}</Box>}
     </div>
   )
 }
@@ -63,6 +65,8 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
   const [reviewRating, setReviewRating] = useState<number | null>(5)
   const [reviews, setReviews] = useState<Review[]>(restaurant.reviews)
   const [tabValue, setTabValue] = useState(2) // Default to Reviews tab
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
@@ -109,17 +113,43 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-        <Typography variant="h5" component="h2">
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+          px: isMobile ? 1 : 0,
+        }}
+      >
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{
+            fontSize: isMobile ? "1.25rem" : "1.5rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: "80%",
+          }}
+        >
           {restaurant.name}
         </Typography>
-        <IconButton>
+        <IconButton size={isMobile ? "small" : "medium"}>
           <CloseIcon />
         </IconButton>
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <Typography variant="h6" component="span" sx={{ mr: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          mb: 1,
+          flexWrap: isMobile ? "wrap" : "nowrap",
+          px: isMobile ? 1 : 0,
+        }}
+      >
+        <Typography variant="h6" component="span" sx={{ mr: 1, fontSize: isMobile ? "1rem" : "1.25rem" }}>
           {restaurant.rating}
         </Typography>
         <Rating value={restaurant.rating} precision={0.1} readOnly size="small" />
@@ -134,12 +164,12 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
         </Typography>
       </Box>
 
-      <Grid container spacing={1} sx={{ mb: 2 }}>
+      <Grid container spacing={1} sx={{ mb: 2, px: isMobile ? 0.5 : 0 }}>
         {restaurant.images.slice(0, 4).map((image, index) => (
           <Grid item xs={6} md={3} key={index}>
             <Paper
               sx={{
-                height: 100,
+                height: 80,
                 backgroundImage: `url(${image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -150,23 +180,70 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
         ))}
       </Grid>
 
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Button startIcon={<DirectionsIcon />} variant="outlined" size="small">
-          Directions
-        </Button>
-        <Button startIcon={<BookmarkBorderIcon />} variant="outlined" size="small">
-          Save
-        </Button>
-        <Button startIcon={<ShareIcon />} variant="outlined" size="small">
-          Share
-        </Button>
-        <Button startIcon={<CallIcon />} variant="outlined" size="small">
-          Call
-        </Button>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: isMobile ? "space-around" : "space-between",
+          mb: 2,
+          px: isMobile ? 0.5 : 0,
+          flexWrap: isMobile ? "wrap" : "nowrap",
+          gap: isMobile ? 1 : 0,
+        }}
+      >
+        {isMobile ? (
+          <>
+            <Button startIcon={<DirectionsIcon />} variant="outlined" size="small" sx={{ minWidth: 0, px: 1 }}>
+              <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                Directions
+              </Box>
+            </Button>
+            <Button startIcon={<BookmarkBorderIcon />} variant="outlined" size="small" sx={{ minWidth: 0, px: 1 }}>
+              <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                Save
+              </Box>
+            </Button>
+            <Button startIcon={<ShareIcon />} variant="outlined" size="small" sx={{ minWidth: 0, px: 1 }}>
+              <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                Share
+              </Box>
+            </Button>
+            <Button startIcon={<CallIcon />} variant="outlined" size="small" sx={{ minWidth: 0, px: 1 }}>
+              <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                Call
+              </Box>
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button startIcon={<DirectionsIcon />} variant="outlined" size="small">
+              Directions
+            </Button>
+            <Button startIcon={<BookmarkBorderIcon />} variant="outlined" size="small">
+              Save
+            </Button>
+            <Button startIcon={<ShareIcon />} variant="outlined" size="small">
+              Share
+            </Button>
+            <Button startIcon={<CallIcon />} variant="outlined" size="small">
+              Call
+            </Button>
+          </>
+        )}
       </Box>
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="restaurant tabs" variant="fullWidth">
+        <Tabs
+          value={tabValue}
+          onChange={handleTabChange}
+          aria-label="restaurant tabs"
+          variant="fullWidth"
+          sx={{
+            "& .MuiTab-root": {
+              fontSize: isMobile ? "0.75rem" : "0.875rem",
+              px: isMobile ? 1 : 2,
+            },
+          }}
+        >
           <Tab label="Overview" id="restaurant-tab-0" />
           <Tab label="Menu" id="restaurant-tab-1" />
           <Tab label="Reviews" id="restaurant-tab-2" />
@@ -187,14 +264,28 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
           <Typography variant="subtitle1" gutterBottom>
             Located in:
           </Typography>
-          <Typography variant="body2" component="div" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            component="div"
+            sx={{
+              mb: 2,
+              wordBreak: "break-word",
+            }}
+          >
             {restaurant.location}
           </Typography>
 
           <Typography variant="subtitle1" gutterBottom>
             Address:
           </Typography>
-          <Typography variant="body2" component="div" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            component="div"
+            sx={{
+              mb: 2,
+              wordBreak: "break-word",
+            }}
+          >
             {restaurant.address}
           </Typography>
 
@@ -225,7 +316,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
 
       <TabPanel value={tabValue} index={2}>
         <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom sx={{ fontSize: isMobile ? "1.1rem" : "1.25rem" }}>
             Review summary
           </Typography>
 
@@ -260,9 +351,10 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
                   alignItems: "center",
                   justifyContent: "center",
                   height: "100%",
+                  py: isMobile ? 2 : 0,
                 }}
               >
-                <Typography variant="h3" component="div">
+                <Typography variant="h3" component="div" sx={{ fontSize: isMobile ? "2.5rem" : "3rem" }}>
                   {restaurant.rating.toFixed(1)}
                 </Typography>
                 <Rating value={restaurant.rating} precision={0.1} readOnly />
@@ -283,17 +375,25 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
         <Box>
           {reviews.map((review) => (
             <Card key={review.id} sx={{ mb: 2 }}>
-              <CardContent>
+              <CardContent sx={{ p: isMobile ? 1.5 : 2 }}>
                 <Box sx={{ display: "flex", mb: 1 }}>
-                  <Avatar sx={{ bgcolor: "primary.main", mr: 2 }}>{review.userInitial}</Avatar>
+                  <Avatar sx={{ bgcolor: "primary.main", mr: 2, width: 36, height: 36 }}>{review.userInitial}</Avatar>
                   <Box>
-                    <Typography variant="subtitle1" component="div">
+                    <Typography variant="subtitle1" component="div" sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}>
                       {review.userName}
                     </Typography>
                     <Rating value={review.rating} size="small" readOnly />
                   </Box>
                 </Box>
-                <Typography variant="body2" component="div" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography
+                  variant="body2"
+                  component="div"
+                  color="text.secondary"
+                  sx={{
+                    mb: 1,
+                    wordBreak: "break-word",
+                  }}
+                >
                   {review.text}
                 </Typography>
               </CardContent>
@@ -303,8 +403,8 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
       </TabPanel>
 
       {/* Review Dialog */}
-      <Dialog open={openReviewDialog} onClose={handleCloseReviewDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>
+      <Dialog open={openReviewDialog} onClose={handleCloseReviewDialog} maxWidth="sm" fullWidth fullScreen={isMobile}>
+        <DialogTitle sx={{ pr: 6, fontSize: isMobile ? "1.1rem" : "1.25rem" }}>
           Write a Review
           <IconButton
             aria-label="close"
@@ -329,7 +429,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
               onChange={(event, newValue) => {
                 setReviewRating(newValue)
               }}
-              size="large"
+              size={isMobile ? "medium" : "large"}
             />
           </Box>
           <TextField
@@ -346,7 +446,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
             onChange={(e) => setReviewText(e.target.value)}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2 }}>
           <Button onClick={handleCloseReviewDialog}>Cancel</Button>
           <Button
             onClick={handleSubmitReview}
