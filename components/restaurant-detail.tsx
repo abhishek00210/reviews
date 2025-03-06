@@ -153,13 +153,13 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
           {restaurant.rating}
         </Typography>
         <Rating value={restaurant.rating} precision={0.1} readOnly size="small" />
-        <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+        <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 1 }}>
           ({restaurant.reviewCount})
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mx: 1 }}>
+        <Typography variant="body2" component="span" color="text.secondary" sx={{ mx: 1 }}>
           • ₹{restaurant.priceRange[0]}–{restaurant.priceRange[1]}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" component="span" color="text.secondary">
           • {restaurant.cuisine}
         </Typography>
       </Box>
@@ -252,7 +252,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
 
       <TabPanel value={tabValue} index={0}>
         <Box>
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography variant="subtitle1" component="h3" gutterBottom>
             Service options:
           </Typography>
           <Box sx={{ mb: 2 }}>
@@ -261,7 +261,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
             ))}
           </Box>
 
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography variant="subtitle1" component="h3" gutterBottom>
             Located in:
           </Typography>
           <Typography
@@ -275,7 +275,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
             {restaurant.location}
           </Typography>
 
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography variant="subtitle1" component="h3" gutterBottom>
             Address:
           </Typography>
           <Typography
@@ -289,7 +289,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
             {restaurant.address}
           </Typography>
 
-          <Typography variant="subtitle1" gutterBottom>
+          <Typography variant="subtitle1" component="h3" gutterBottom>
             Hours:
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -300,7 +300,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
           </Box>
 
           <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1" component="h3" gutterBottom>
               Phone:
             </Typography>
             <Typography variant="body2" component="div">
@@ -311,12 +311,14 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
       </TabPanel>
 
       <TabPanel value={tabValue} index={1}>
-        <Typography variant="body1">Menu information is not available in this demo.</Typography>
+        <Typography variant="body1" component="div">
+          Menu information is not available in this demo.
+        </Typography>
       </TabPanel>
 
       <TabPanel value={tabValue} index={2}>
         <Box sx={{ mb: 3 }}>
-          <Typography variant="h6" gutterBottom sx={{ fontSize: isMobile ? "1.1rem" : "1.25rem" }}>
+          <Typography variant="h6" component="h3" gutterBottom sx={{ fontSize: isMobile ? "1.1rem" : "1.25rem" }}>
             Review summary
           </Typography>
 
@@ -420,7 +422,7 @@ export default function RestaurantDetail({ restaurant }: RestaurantDetailProps) 
         </DialogTitle>
         <DialogContent>
           <Box sx={{ my: 2 }}>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="subtitle1" component="div" gutterBottom>
               Rate your experience
             </Typography>
             <Rating
