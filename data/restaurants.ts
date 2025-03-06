@@ -1,5 +1,8 @@
 import type { Restaurant } from "@/types/restaurant"
 
+const restaurantImageUrl =
+  "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1"
+
 export const restaurantsData: Restaurant[] = [
   {
     id: "lucky9",
@@ -20,12 +23,7 @@ export const restaurantsData: Restaurant[] = [
       "Has outdoor seating",
       "Has fireplace",
     ],
-    images: [
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1",
-      "/placeholder.svg?height=200&width=300",
-      "/placeholder.svg?height=200&width=300",
-      "/placeholder.svg?height=200&width=300",
-    ],
+    images: [restaurantImageUrl, restaurantImageUrl, restaurantImageUrl, restaurantImageUrl],
     isOpen: true,
     hours: "Open 24 hours",
     phone: "093100 10202",
@@ -67,11 +65,7 @@ export const restaurantsData: Restaurant[] = [
     address: "CD Chowk, Opposite Omaxe Mall, Badshahpur, Sector 49, Gurugram, Haryana 122018",
     location: "Gurugram Haryana",
     features: ["Street-side place for mixed fare"],
-    images: [
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1",
-      "/placeholder.svg?height=200&width=300",
-      "/placeholder.svg?height=200&width=300",
-    ],
+    images: [restaurantImageUrl, restaurantImageUrl, restaurantImageUrl],
     isOpen: true,
     hours: "8 AM - 11 PM",
     phone: "098765 43210",
@@ -105,7 +99,7 @@ export const restaurantsData: Restaurant[] = [
     address: "466, opposite Balaji PG",
     location: "Gurugram Haryana",
     features: ["Veg-only"],
-    images: ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1?height=200&width=300", "/placeholder.svg?height=200&width=300"],
+    images: [restaurantImageUrl, restaurantImageUrl],
     isOpen: true,
     hours: "7 AM - 10 PM",
     phone: "099876 54321",
@@ -131,7 +125,7 @@ export const restaurantsData: Restaurant[] = [
     address: "GF001,Ground Floor, JMD MEGAPOLIS, Badshahpur, Sector 48, Gurugram, Haryana 122018",
     location: "Gurugram Haryana",
     features: ["Dine-in", "Drive-through", "No-contact delivery"],
-    images: ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1?height=200&width=300", "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ef/8a/d2/indulge-in-the-art-of.jpg?w=600&h=-1&s=1?height=200&width=300"],
+    images: [restaurantImageUrl, restaurantImageUrl],
     isOpen: false,
     hours: "11 AM - 11 PM",
     phone: "099988 77766",
@@ -157,7 +151,7 @@ export const restaurantsData: Restaurant[] = [
     address: "Sector 50, Gurugram, Haryana 122018",
     location: "Gurugram Haryana",
     features: ["Dine-in", "Takeaway"],
-    images: ["/placeholder.svg?height=200&width=300", "/placeholder.svg?height=200&width=300"],
+    images: [restaurantImageUrl, restaurantImageUrl],
     isOpen: true,
     hours: "10 AM - 10 PM",
     phone: "088877 66655",
